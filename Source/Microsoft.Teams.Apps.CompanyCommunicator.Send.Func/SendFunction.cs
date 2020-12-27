@@ -233,7 +233,25 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Send.Func
                 Content = JsonConvert.DeserializeObject(notification.Content),
             };
 
-            return MessageFactory.Attachment(adaptiveCardAttachment);
+            //return MessageFactory.Attachment(adaptiveCardAttachment);
+
+            var result = MessageFactory.Attachment(adaptiveCardAttachment);
+
+            AdaptiveCards.AdaptiveCard aCard = JsonConvert.DeserializeObject<AdaptiveCards.AdaptiveCard>(notification.Content);
+            var body = aCard.Body.FirstOrDefault();
+            if (body is AdaptiveCards.AdaptiveTextBlock)
+            {
+                result.Summary = ((AdaptiveCards.AdaptiveTextBlock)body).Text;
+            }
+
+
+
+            if (string.IsNullOrWhiteSpace(result.Summary))
+            {
+                result.Summary = result.Text ?? "";
+            }
+
+            return result;
         }
     }
 }
