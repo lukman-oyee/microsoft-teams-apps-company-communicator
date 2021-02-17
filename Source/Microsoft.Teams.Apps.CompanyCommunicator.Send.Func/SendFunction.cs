@@ -6,6 +6,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Send.Func
 {
     using System;
     using System.Threading.Tasks;
+    using System.Linq;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Schema;
